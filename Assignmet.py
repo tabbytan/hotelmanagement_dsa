@@ -241,26 +241,66 @@ def option7():
                     print(numberlist)
 
 
-# quicksort
-def option8(list):
-    array = list
-    less = []
-    pivotList = []
-    more = []
-    if len(array) <= 1:
-        return array
-    else:
-        pivot = array[0]
-        for i in array:
-            if (i.totalprice) < (pivot.totalprice):
-                less.append(i)
-            elif (i.totalprice) > (pivot.totalprice):
-                more.append(i)
-            else:
-                pivotList.append(i)
-        less = option8(less)
-        more = option8(more)
-        return less + pivotList + more
+# pancake sort
+
+def flip(arr, i):
+    # reverse arr[0...i]
+    start = 0
+    while start < i:
+        temp = arr[start]
+        arr[start] = arr[i]
+        arr[i] = temp
+        start += 1
+        i -= 1
+
+# work in progress pancake sort
+def option8(arr):
+    for item in arr:
+        list = arr[item].totalprice
+    # the main function that complete sorting
+    # start from the array and one by one reduce the current size
+    output = []
+    curr_size = len(arr) - 1
+    # find the index of the maxmium element inside the arr[0..curr_size -1]
+    while curr_size > 0:
+        mi = findMaxUpTo(arr, curr_size)
+        if mi != curr_size:
+            flip(arr, mi)
+            # once I flip it
+            # now move the maximum number to the end by reversing current array
+            flip(arr, curr_size)
+        curr_size -= 1
+    return arr
+
+
+def findMaxUpTo(arr, rightBound):
+    best_index = 0
+    max_val = None
+    for i in range(rightBound + 1):
+        if arr[i] > max_val:
+            best_index = i
+            max_val = arr[i]
+    return best_index
+ 
+    # quick sort (cant be used..)
+    # array = list
+    # less = []
+    # pivotList = []
+    # more = []
+    # if len(array) <= 1:
+    #     return array
+    # else:
+    #     pivot = array[0]
+    #     for i in array:
+    #         if (i.totalprice) < (pivot.totalprice):
+    #             less.append(i)
+    #         elif (i.totalprice) > (pivot.totalprice):
+    #             more.append(i)
+    #         else:
+    #             pivotList.append(i)
+    #     less = option8(less)
+    #     more = option8(more)
+    #     return less + pivotList + more
 
  # main menu loop
 menuflag = True
