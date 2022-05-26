@@ -255,8 +255,6 @@ def flip(arr, i):
 
 # work in progress pancake sort
 def option8(arr):
-    for item in arr:
-        list = arr[item].totalprice
     # the main function that complete sorting
     # start from the array and one by one reduce the current size
     output = []
@@ -275,11 +273,11 @@ def option8(arr):
 
 def findMaxUpTo(arr, rightBound):
     best_index = 0
-    max_val = None
+    max_val = 0
     for i in range(rightBound + 1):
-        if arr[i] > max_val:
+        if arr[i].totalprice > max_val:
             best_index = i
-            max_val = arr[i]
+            max_val = arr[i].totalprice
     return best_index
  
     # quick sort (cant be used..)
