@@ -4,7 +4,7 @@ from tkinter import Pack
 
 
 def menu():
-    print("Welcome to hotel management system1.\n "
+    print("Welcome to hotel management system1.\n"
           "1. Display all records\n"
           "2. Sort record by Customer Name using Bubble sort\n"
           "3. Sort record by Package Name using Selection sort\n"
@@ -12,7 +12,7 @@ def menu():
           "5. Search record by Customer Name using Linear Search and update record\n"
           "6. Search record by Package Name using Binary Search and update record\n"
           "7. List records range from $X to $Y. e.g $100-200\n"
-          "8. Use Quick Sort to sort total price from lowest to highest\n"
+          "8. Use Pancake SOrt to sort total price from lowest to highest\n"
           "9. Exit Application")
     option = input("Insert choice here:")
     return option
@@ -60,7 +60,7 @@ class Record:
         self.totalprice = NumberOfPax*PackageCostPerPax
 
     def __str__(self):
-        return f'{self.PackageName},{self.CustomerName},{self.NumberOfPax},{self.PackageCostPerPax}'
+        return f'Packagename: {self.PackageName}\nCustomer Name: {self.CustomerName}\n Number of pax: {self.NumberOfPax}\n Package cost: {self.PackageCostPerPax}\n Total price: {self.totalprice}\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-='
 
     __repr__ = __str__
 
