@@ -1,35 +1,20 @@
-from re import L
-from struct import pack
-from tkinter import Pack
 
-
-def menu():
-    print("Welcome to hotel management system1.\n"
-          "1. Display all records\n"
-          "2. Sort record by Customer Name using Bubble sort\n"
-          "3. Sort record by Package Name using Selection sort\n"
-          "4. Sort record by Package Cost using Insertion sort\n"
-          "5. Search record by Customer Name using Linear Search and update record\n"
-          "6. Search record by Package Name using Binary Search and update record\n"
-          "7. List records range from $X to $Y. e.g $100-200\n"
-          "8. Use Pancake SOrt to sort total price from lowest to highest\n"
-          "9. Exit Application")
-    option = input("Insert choice here:")
-    return option
+import random
 
 
 def update(name):
+    print(f'1.package name\n2.customer name\n3.no of pax\n4.packagecost per pax ')
     attribute = input("change which attribute?").lower()
     name = name.lower()
-    if attribute == 'packagename':
+    if attribute == '1':
         for item in list:
             if name == item.CustomerName:
                 item.PackageName = input("Change package name here: ")
-    elif attribute == 'customername':
+    elif attribute == '2':
         for item in list:
             if name == item.CustomerName:
                 item.CustomerName = input("change customer name here: ")
-    elif attribute == 'numberofpax':
+    elif attribute == '3':
         for item in list:
             if name == item.CustomerName:
                 validation = True
@@ -37,9 +22,11 @@ def update(name):
                     value = input('insert no of pax here')
                     if value.isnumeric():
                         item.NumberOfPax = value
+                        item.totalprice = item.NumberOfPax * item.PackageCostPerPax
+                        validation = False
                     else:
                         print('error not a number')
-    elif attribute == 'packagecostperpax':
+    elif attribute == '4':
         for item in list:
             if name == item.CustomerName:
                 validation = True
@@ -47,6 +34,8 @@ def update(name):
                     value = input('insert no of pax here')
                     if value.isnumeric():
                         item.PackageCostPerPax = value
+                        item.totalprice = item.PackageCostPerPax * item.NumberOfPax
+                        validation = False
                     else:
                         print('error not a number')
 
@@ -60,7 +49,7 @@ class Record:
         self.totalprice = NumberOfPax*PackageCostPerPax
 
     def __str__(self):
-        return f'Packagename: {self.PackageName}\nCustomer Name: {self.CustomerName}\n Number of pax: {self.NumberOfPax}\n Package cost: {self.PackageCostPerPax}\n Total price: {self.totalprice}\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-='
+        return f'\nPackagename: {self.PackageName}\nCustomer Name: {self.CustomerName}\n Number of pax: {self.NumberOfPax}\n Package cost: {self.PackageCostPerPax}\n Total price: {self.totalprice}\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-='
 
     __repr__ = __str__
 
@@ -140,13 +129,14 @@ def option4():
 def option5():
     listname = list
     n = len(listname)
-    target = input('name here').lower()
+    target = input('name here: ').lower()
 
     for i in range(n):
         # If the target is in the ith element, return True
         if listname[i].CustomerName.lower() == target:
             update(target)
-    print('error cannot find')
+    else:
+        print('error cannot find')
 
 
 def option6():
@@ -192,31 +182,38 @@ def updatebinary(index, sortedlist):
     attribute = -1
     while attribute != '0':
         attribute = input(
-            'insert attribute to change here press 0 to escape\nPackageName, CustomerName, NumberOfPax, PackageCostPerPax: ').lower()
-        if attribute == 'customername':
+            'insert attribute to change here press 0 to escape\nNa1.CustomerName, 2.Package name, 3.NumberOfPax, 4.PackageCostPerPax: ').lower()
+        if attribute == '1':
             name = input('insert customer name here')
             sortedlist[index].CustomerName = name
-        elif attribute == 'packagename':
+
+        elif attribute == '2':
             packagename = input('insert package name here')
             sortedlist[index].PackageName = packagename
-        elif attribute == 'numberofpax':
+
+        elif attribute == '3':
             validation = True
             while validation:
                 numberofpax = input('insert number of pax here')
                 if numberofpax.isnumeric():
-                    sortedlist[index].NumberOfPax = numberofpax
+                    sortedlist[index].NumberOfPax = int(numberofpax)
+                    sortedlist[index].totalprice = sortedlist[index].NumberOfPax * \
+                        sortedlist[index].PackageCostPerPax
                     validation = False
+
                 else:
                     print('not a number')
-        elif attribute == 'packagecostperpax':
+        elif attribute == '4':
             validation = True
             while validation:
                 packagecostperpax = input('insert cost per pax')
                 if packagecostperpax.isnumeric():
-                    sortedlist[index].PackageCostPerPax = packagecostperpax
+                    sortedlist[index].PackageCostPerPax = int(
+                        packagecostperpax)
+                    sortedlist[index].totalprice = sortedlist[index].PackageCostPerPax * \
+                        sortedlist[index].NumberOfPax
                     validation = False
-                    list.clear()
-                    list.append(list)
+
                 else:
                     print('not a number')
 
@@ -236,7 +233,7 @@ def option7():
                 else:
                     validation = False
                     for item in list:
-                        if x < item.PackageCostPerPax < y:
+                        if x <= item.PackageCostPerPax <= y:
                             numberlist.append(item)
                     print(numberlist)
 
@@ -254,6 +251,8 @@ def flip(arr, i):
         i -= 1
 
 # work in progress pancake sort
+
+
 def option8(arr):
     # the main function that complete sorting
     # start from the array and one by one reduce the current size
@@ -279,7 +278,7 @@ def findMaxUpTo(arr, rightBound):
             best_index = i
             max_val = arr[i].totalprice
     return best_index
- 
+
     # quick sort (cant be used..)
     # array = list
     # less = []
@@ -300,7 +299,65 @@ def findMaxUpTo(arr, rightBound):
     #     more = option8(more)
     #     return less + pivotList + more
 
- # main menu loop
+
+def option9():
+    a = list
+    n = len(a)
+    while (is_sorted(a) == False):
+        shuffle(a)
+    print(a)
+# check
+
+
+def is_sorted(a):
+    n = len(a)
+    for i in range(0, n-1):
+        if (a[i].PackageCostPerPax > a[i+1].PackageCostPerPax):
+            return False
+    return True
+# permutation
+
+
+def shuffle(a):
+    n = len(a)
+    for i in range(0, n):
+        r = random.randint(0, n-1)
+        a[i], a[r] = a[r], a[i]
+    # main menu loop
+
+
+def option10():
+    A = list
+    up = range(len(A)-1)
+    while True:
+        for indices in (up, reversed(up)):
+            swapped = False
+            for i in indices:
+                if A[i].CustomerName > A[i+1].CustomerName:
+                    A[i].CustomerName, A[i+1].CustomerName = A[i +
+                                                               1].CustomerName, A[i].CustomerName
+                    swapped = True
+            if not swapped:
+                return A
+
+
+def menu():
+    print("Welcome to hotel management system1.\n"
+          "1. Display all records\n"
+          "2. Sort record by Customer Name using Bubble sort\n"
+          "3. Sort record by Package Name using Selection sort\n"
+          "4. Sort record by Package Cost using Insertion sort\n"
+          "5. Search record by Customer Name using Linear Search and update record\n"
+          "6. Search record by Package Name using Binary Search and update record\n"
+          "7. List records range from $X to $Y. e.g $100-200\n"
+          "8. Use Pancake SOrt to sort total price from lowest to highest\n"
+          "9. Bogo sort package cost per pax\n"
+          "10.Cocktail shaker customer name\n"
+          "11.Exit")
+    option = input("Insert choice here:")
+    return option
+
+
 menuflag = True
 while menuflag:
     choice = menu()
@@ -321,4 +378,8 @@ while menuflag:
     elif choice == '8':
         print(option8(list))
     elif choice == "9":
+        option9()
+    elif choice == "10":
+        print(option10())
+    elif choice == "11":
         exit()
