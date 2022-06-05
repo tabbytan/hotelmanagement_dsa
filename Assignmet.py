@@ -76,9 +76,9 @@ def option2():
         for j in range(i):
             if listname[j].CustomerName.lower() > listname[j + 1].CustomerName.lower():
                 # Swap the j and j+1 items
-                tmp = listname[j].CustomerName.lower()
-                listname[j].CustomerName = listname[j + 1].CustomerName.lower()
-                listname[j + 1].CustomerName = tmp.lower()
+                tmp = listname[j]
+                listname[j] = listname[j + 1]
+                listname[j + 1] = tmp
     print(listname)
     input('press anything to continue')
 
@@ -98,32 +98,29 @@ def option3():
                 # Swap the ith value and smallNdx value only if the smallest
         # value is not already in its proper position.
         if smallNdx != i:
-            tmp = listpackage[i].PackageName
-            listpackage[i].PackageName = listpackage[smallNdx].PackageName
-            listpackage[smallNdx].PackageName = tmp
+            tmp = listpackage[i]
+            listpackage[i] = listpackage[smallNdx]
+            listpackage[smallNdx] = tmp
     print(listpackage)
     input('press anything continue')
 
 
 def option4():
-    listpackagecost = list
-    n = len(listpackagecost)
-    # Starts with the first item as the only sorted entry.
-    for i in range(1, n):
-        # Save the value to be positioned
-        value = listpackagecost[i].PackageCostPerPax
-        # Find the position where value fits in the
-        # ordered part of the list.
-        pos = i
-        while pos > 0 and value < listpackagecost[pos - 1].PackageCostPerPax:
-            # Shift the items to the right during the search
-            listpackagecost[pos].PackageCostPerPax = listpackagecost[pos -
-                                                                     1].PackageCostPerPax
-            pos -= 1
-            # Put the saved value into the open slot.
-            listpackagecost[pos].PackageCostPerPax = value
-    print(listpackagecost)
-    input('press anything to continue')
+    arr = list
+    # Traverse through 1 to len(arr)
+    for i in range(1, len(arr)):
+
+        key = arr[i].PackageCostPerPax
+
+        # Move elements of arr[0..i-1], that are
+        # greater than key, to one position ahead
+        # of their current position
+        j = i-1
+        while j >= 0 and key < arr[j].PackageCostPerPax:
+            arr[j+1].PackageCostPerPax = arr[j].PackageCostPerPax
+            j -= 1
+        arr[j+1].PackageCostPerPax = key
+    print(arr)
 
 
 def option5():
@@ -334,8 +331,7 @@ def option10():
             swapped = False
             for i in indices:
                 if A[i].CustomerName > A[i+1].CustomerName:
-                    A[i].CustomerName, A[i+1].CustomerName = A[i +
-                                                               1].CustomerName, A[i].CustomerName
+                    A[i], A[i+1] = A[i + 1], A[i]
                     swapped = True
             if not swapped:
                 return A
